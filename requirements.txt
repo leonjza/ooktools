@@ -1,0 +1,5 @@
+peakutils
+bitstring
+click
+matplotlib
+numpy

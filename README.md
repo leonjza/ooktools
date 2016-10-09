@@ -81,7 +81,7 @@ Commands:
   wave      Wave File Commands.
 ```
 
-For examples, please refer to the blogpost [here](https://leonjza.github.io/blog/2016/10/08/introducing-ooktools.-on-off-keying-tools-for-your-sdr/).
+**For full examples, please refer to the blogpost [here](https://leonjza.github.io/blog/2016/10/08/ooktools-on-off-keying-tools-for-your-sdr/)**
 
 ### known issues
 Nothing is perfect I guess. One of the biggest problems would be test cases and variations. So, here is the stuff that I know is not 100% perfect. Pull requests welcome!

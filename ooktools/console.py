@@ -229,11 +229,9 @@ def binary(frequency, prefix, suffix, baud, repeat, data, full):
               help='Frequency to use.')
 @click.option('--baud', '-b', default=4800, show_default=True,
               help='Baud rate to use.')
-@click.option('--full', '-f', is_flag=True, default=False, show_default=True,
-              help='Is data a full bitstring.')
 @click.option('--repeat', '-r', default=25, show_default=True,
               help='# of times to repeat transmission.')
-def hexstring(frequency, baud, repeat, data, full):
+def hexstring(frequency, baud, repeat, data):
     """
         Send hex string.
     """

@@ -314,6 +314,7 @@ def send_binary(frequency, prefix, suffix, baud, repeat, data, full):
     click.secho('Preparing radio', fg='yellow')
 
     # Setup the Radio
+    click.secho('Configuring Radio', fg='yellow')
     d = rflib.RfCat()
     configure_dongle(d, frequency=frequency, pktflen=len(rf_data), baud=baud)
 
@@ -349,6 +350,7 @@ def send_hex(frequency, baud, repeat, data):
     click.secho('Preparing radio', fg='yellow')
 
     # Setup the Radio
+    click.secho('Configuring Radio', fg='yellow')
     d = rflib.RfCat()
     configure_dongle(d, frequency=frequency, pktflen=len(rf_data), baud=baud)
 
@@ -374,6 +376,7 @@ def jam(frequency, data, baud, maxpower):
         :return:
     """
 
+    click.secho('Configuring Radio', fg='yellow')
     d = rflib.RfCat()
     configure_dongle(d, frequency=frequency, pktflen=len(data), baud=baud,
                      maxpower=maxpower)

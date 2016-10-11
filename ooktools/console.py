@@ -198,6 +198,24 @@ def plot(source, count, series):
     return
 
 
+@signal.command()
+@click.option('--frequency', '-F', default=433920000, show_default=True,
+              help='Frequency to use.')
+@click.option('--data', '-D', default='ffffffff', metavar='HEXSTRING',
+              help='Data to use in the jam.', callback=validate_hex_string)
+@click.option('--baud', '-b', default=4800, show_default=True,
+              help='Baud rate to use.')
+@click.option('--maxpower', '-m', is_flag=True, default=False,
+              help='Set the radio to max output power.')
+def jam(frequency, data, baud, maxpower):
+    """
+        Jam a frequency by just sending noise.
+    """
+
+    signalling.jam(**locals())
+    return
+
+
 @send.command()
 @click.option('--data', '-D', required=True, help='Source bitstring.',
               callback=validate_binary_string)

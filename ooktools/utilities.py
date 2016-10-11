@@ -184,7 +184,7 @@ def find_common_string(data):
 
 
 def configure_dongle(d, frequency, pktflen, baud, modulation=rflib.MOD_ASK_OOK,
-                     syncmode=0, lowball=False):
+                     syncmode=0, lowball=False, maxpower=False):
     """
         Configure an instance of rflib.RFCat
 
@@ -195,6 +195,7 @@ def configure_dongle(d, frequency, pktflen, baud, modulation=rflib.MOD_ASK_OOK,
         :param modulation:
         :param syncmode:
         :param lowball:
+        :param maxpower:
         :return:
     """
 
@@ -218,5 +219,10 @@ def configure_dongle(d, frequency, pktflen, baud, modulation=rflib.MOD_ASK_OOK,
     if lowball:
         d.lowball()
         click.secho('[radio] Lowball:       {}'.format(lowball), dim=True, bold=True)
+
+    # set the radio to its loudest
+    if maxpower:
+        d.setMaxPower()
+        click.secho('[radio] MaxPower:      {}'.format(maxpower), dim=True, bold=True)
 
     return

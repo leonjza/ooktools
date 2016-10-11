@@ -361,3 +361,29 @@ def send_hex(frequency, baud, repeat, data):
     d.setModeIDLE()
 
     return
+
+
+def jam(frequency, data, baud, maxpower):
+    """
+        Jam a frequency by continuously sending crap.
+
+        :param frequency:
+        :param data:
+        :param baud:
+        :param maxpower:
+        :return:
+    """
+
+    d = rflib.RfCat()
+    configure_dongle(d, frequency=frequency, pktflen=len(data), baud=baud,
+                     maxpower=maxpower)
+
+    click.secho('Starting jam on frequency: {}. Press [ENTER] to stop.'.format(frequency), fg='green')
+
+    # Fire Ze Lazers!
+    while not keystop():
+        d.RFxmit(data=data)
+
+    # Idle the radio
+    click.secho('Idling radio', fg='yellow')
+    d.setModeIDLE()

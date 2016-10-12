@@ -40,7 +40,7 @@ def validate_wave(ctx, param, value):
     try:
         wave_read = wave.open(value)
 
-        if wave_read.getnchannels() is not 1:
+        if wave_read.getnchannels() != 1:
             raise click.BadParameter('Only mono wave files are supported')
 
         return wave_read

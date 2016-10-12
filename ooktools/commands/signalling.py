@@ -283,26 +283,22 @@ def send_binary(frequency, prefix, suffix, baud, repeat, data, full):
     else:
         # Calculate the PWM version of the binary we got.
 
-        # First, we instantiate the final data string with
-        # the prefix value
-        rf_data_string = prefix
+        # For performance reasons (https://www.python.org/doc/essays/list2str/),
+        # lets append the bits to a list and join them later.
+
+        # First, we instantiate the pwm bits list with the the prefix value
+        pwm_bits = [prefix]
 
         # Next, flip the 1's and 0's to their PWM versions
         for bit in data:
-
-            # rf_data_string += '100' if bit == '1' else '110'
-            x = None
-
-            if bit == '1':
-                x = '100'
-
-            if bit == '0':
-                x = '110'
-
-            rf_data_string += x
+            pwm_bits.append('100' if bit == '1' else '110')
 
         # Finally, add the suffix
-        rf_data_string += suffix
+        pwm_bits.append(suffix)
+
+        # Generate a string from the list of bits
+        rf_data_string = ''.join(pwm_bits)
+
         click.secho('Full PWM key:          {}'.format(rf_data_string), fg='green')
 
         # Convert the data to bytes for the radio to send

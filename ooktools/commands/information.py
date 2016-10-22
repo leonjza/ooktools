@@ -166,12 +166,11 @@ def get_wave_binary(source):
             # For now, just discard this.
             click.secho('Skipping for {} as it fits {} times(s)'.format(
                 peak_data['distance'], baud_fits_in_peak), dim=True)
-            key.append('[ ]')
+            key.append(' [{}] '.format(baud_fits_in_peak))
 
     # Print the keys we have found!
     if len(key) > 0:
 
         # Indicate that [ ] mean large breaks in the signal
-        if '[ ]' in key:
-            click.secho('[ ] indicates breaks', fg='white')
+        click.secho('[ ] indicates number of breaks.', fg='white')
         click.secho('Key Data: {}'.format(''.join(str(x) for x in key)), bold=True)

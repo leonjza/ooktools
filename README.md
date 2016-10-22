@@ -22,6 +22,8 @@ I recently [played around a little with static key remotes](https://virtualenv.p
 - Signal searching for On-off keying type data.
 - Sending signals in both binary, complete PWM formatted or hex strings using an RfCat dongle.
 - Gnuradio `.grc` template file generation.
+- Signal 'jammer' by continuously sending a loud, static signal.
+- Signal brute forcer that can iterate over a bitstring range.
 
 ### installation
 You can install `ooktools` in two ways. Either from `pip` or from source. In case of a source installation, you may want to optionally consider installing it in a [virtualenv](https://virtualenv.pypa.io/en/stable/).

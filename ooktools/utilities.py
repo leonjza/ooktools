@@ -47,33 +47,6 @@ def valid_packet(packet, constraint):
     return True
 
 
-def pwm_decode(p):
-    """
-        PWM-ify a received packet.
-        Source:
-            From https://github.com/mossmann/stealthlock/blob/master/sl.py#L37
-
-        :param p:
-        :return:
-    """
-
-    biginteger = 0
-
-    for byte in p:
-        biginteger <<= 8
-        biginteger |= ord(byte)
-
-    biginteger >>= 12
-    out = 0
-
-    for i in range(28, (len(p) * 8 - 12) / 3, 1):
-        out <<= 1
-        out |= ((biginteger & 1) ^ 1)
-        biginteger >>= 3
-
-    return out
-
-
 def oneline_print(string):
     """
         Print a string with a carriage return
@@ -157,30 +130,6 @@ def cleanup_wave_data(data):
 
     # return list(itertools.chain(*clean_data))
     return clean_data
-
-
-def find_common_string(data):
-    """
-        Derived from:
-            http://stackoverflow.com/questions/25071766/find-most-common-sub-string-pattern-in-a-file?answertab=votes#tab-top
-
-        :param data:
-        :return:
-    """
-
-    d = {}
-
-    for n in range(1, len(data)):
-
-        substr_counter = Counter(data[i: i + n] for i in range(len(data) - n))
-        phrase, count = substr_counter.most_common(1)[0]
-        if count == 1:  # early out for trivial cases
-            break
-
-        # print 'Size: %3d:  Occurrences: %3d  Phrase: %r' % (n, count, phrase)
-        d[n] = {'occurrences': count, 'phrase': phrase}
-
-    return d
 
 
 def configure_dongle(d, frequency, pktflen, baud, modulation=rflib.MOD_ASK_OOK,

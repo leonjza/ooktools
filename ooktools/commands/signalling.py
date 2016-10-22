@@ -35,6 +35,7 @@ from rflib.chipcon_usb import keystop
 
 from ..utilities import configure_dongle
 from ..utilities import oneline_print
+from ..utilities import pwm_encode
 from ..utilities import valid_packet
 
 
@@ -282,23 +283,7 @@ def send_binary(frequency, prefix, suffix, baud, repeat, data, full):
 
     else:
         # Calculate the PWM version of the binary we got.
-
-        # For performance reasons (https://www.python.org/doc/essays/list2str/),
-        # lets append the bits to a list and join them later.
-
-        # First, we instantiate the pwm bits list with the the prefix value
-        pwm_bits = [prefix]
-
-        # Next, flip the 1's and 0's to their PWM versions
-        for bit in data:
-            pwm_bits.append('100' if bit == '1' else '110')
-
-        # Finally, add the suffix
-        pwm_bits.append(suffix)
-
-        # Generate a string from the list of bits
-        rf_data_string = ''.join(pwm_bits)
-
+        rf_data_string = pwm_encode(data, suffix=suffix, prefix=prefix)
         click.secho('Full PWM key:          {}'.format(rf_data_string), fg='green')
 
         # Convert the data to bytes for the radio to send
@@ -428,20 +413,11 @@ def bruteforce(frequency, baud, maxpower, start, end, repeat, prefix, suffix):
     # Loop over the range and generate PWM encoded strings to
     # send along with the radio
     while current_value < end.uint:
-
         # Get a proper BitArray instance of the binary
         binary = bitstring.BitArray(bin=bin(current_value))
 
-        # Calculate the PWM version of the binary
-        pwm_bits = [prefix]
-
-        for bit in binary.bin:
-            pwm_bits.append('100' if bit == '1' else '110')
-
-        # Add the suffix
-        pwm_bits.append(suffix)
-
-        pwm_data = ''.join(pwm_bits)
+        # Get the PWM version of the binary string
+        pwm_data = pwm_encode(binary.bin, prefix=prefix, suffix=suffix)
 
         # Add the permutation and append the current value
         permutations.append(pwm_data)

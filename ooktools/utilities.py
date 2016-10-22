@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 import sys
-from collections import Counter
 
 import click
 import numpy
@@ -70,6 +69,35 @@ def chunks(data, l):
 
     for i in range(0, len(data), l):
         yield data[i:i + l]
+
+
+def pwm_encode(data, prefix=None, suffix=None):
+    """
+        Encode a binary string with PWM:
+            https://en.wikipedia.org/wiki/Pulse-width_modulation
+
+        :param data:
+        :param prefix:
+        :param suffix:
+        :return:str
+    """
+
+    # For performance reasons (https://www.python.org/doc/essays/list2str/),
+    # lets append the bits to a list and join them later.
+
+    # Start the bits array by adding the prefix if its defined
+    pwm_bits = [prefix] if prefix is not None else []
+
+    # Next, flip the 1's and 0's to their PWM versions
+    for bit in data:
+        pwm_bits.append('100' if bit == '1' else '110')
+
+    # Finally, add the suffix if its defined
+    if suffix is not None:
+        pwm_bits.append(suffix)
+
+    # Return a string from the list of bits
+    return ''.join(pwm_bits)
 
 
 def cleanup_wave_data(data):

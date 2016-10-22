@@ -6,9 +6,9 @@ setup(
     author='Leon Jacobs',
     author_email='leonja511@gmail.com',
     url='https://github.com/leonjza/ooktools',
-    download_url='https://github.com/leonjza/ooktools/tarball/1.2',
+    download_url='https://github.com/leonjza/ooktools/tarball/1.3',
     keywords=['sdr', 'on-off', 'keying', 'rfcat', 'radio'],
-    version='1.2',
+    version='1.3',
     packages=[
         'ooktools',
         'ooktools.commands',

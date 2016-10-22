@@ -216,6 +216,32 @@ def jam(frequency, data, baud, maxpower):
     return
 
 
+@signal.command()
+@click.option('--frequency', '-F', default=433920000, show_default=True,
+              help='Frequency to use.')
+@click.option('--baud', '-b', default=4800, show_default=True,
+              help='Baud rate to use.')
+@click.option('--maxpower', '-m', is_flag=True, default=False,
+              help='Set the radio to max output power.')
+@click.option('--start', '-S', default='000000000000', help='Start sequence.',
+              callback=validate_binary_string, show_default=True)
+@click.option('--end', '-E', default='111111111111', help='End sequence.',
+              callback=validate_binary_string, show_default=True)
+@click.option('--repeat', '-r', default=5, show_default=True,
+              help='Number of times to repeat a frame.')
+@click.option('--prefix', '-p', default='', help='Signal prefix.',
+              callback=validate_binary_string)
+@click.option('--suffix', '-s', default='', help='Signal suffix.',
+              callback=validate_binary_string)
+def brute(frequency, baud, maxpower, start, end, repeat, prefix, suffix):
+    """
+        Bruteforce a binary range.
+    """
+
+    signalling.bruteforce(**locals())
+    return
+
+
 @send.command()
 @click.option('--data', '-D', required=True, help='Source bitstring.',
               callback=validate_binary_string)

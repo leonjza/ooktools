@@ -386,3 +386,91 @@ def jam(frequency, data, baud, maxpower):
     # Idle the radio
     click.secho('Idling radio', fg='yellow')
     d.setModeIDLE()
+
+
+def bruteforce(frequency, baud, maxpower, start, end, repeat, prefix, suffix):
+    """
+        Brute force an OOK signal by sending permutations of
+        a bitstring.
+
+        :param frequency:
+        :param baud:
+        :param maxpower:
+        :param start:
+        :param end:
+        :param repeat:
+        :param prefix:
+        :param suffix:
+        :return:
+    """
+
+    start = bitstring.BitArray(bin=start)
+    end = bitstring.BitArray(bin=end)
+
+    click.secho('Start binary   : \'{}\' or \'{}\' as an integer'.format(start.bin, start.uint), fg='green')
+    click.secho('End binary     : \'{}\' or \'{}\' as an integer'.format(end.bin, end.uint), fg='green')
+
+    # Ensure that the start value is less than the end value
+    if start.uint > end.uint:
+        click.secho('Start position is larger than end position.', fg='red')
+        return
+
+    click.secho('Generating {} combinations...'.format(end.uint - start.uint), fg='green', bold=True)
+
+    # Placeholder for all of the PWM permutations that
+    # will be calculated.
+    permutations = []
+
+    # Set the current value to the start value as a starting
+    # point for the brute force
+    current_value = start.uint
+
+    # Loop over the range and generate PWM encoded strings to
+    # send along with the radio
+    while current_value < end.uint:
+
+        # Get a proper BitArray instance of the binary
+        binary = bitstring.BitArray(bin=bin(current_value))
+
+        # Calculate the PWM version of the binary
+        pwm_bits = [prefix]
+
+        for bit in binary.bin:
+            pwm_bits.append('100' if bit == '1' else '110')
+
+        # Add the suffix
+        pwm_bits.append(suffix)
+
+        pwm_data = ''.join(pwm_bits)
+
+        # Add the permutation and append the current value
+        permutations.append(pwm_data)
+        current_value += 1
+
+    click.secho('Configuring Radio', fg='yellow')
+    d = rflib.RfCat()
+    configure_dongle(d, frequency=frequency, pktflen=len(permutations[0]), baud=baud,
+                     maxpower=maxpower)
+
+    click.secho('Running brute force with a total of ({} combinations * {} repeats) {} RF transmits.'.format(
+        len(permutations), repeat, len(permutations) * repeat), bold=True)
+
+    # Small function used to format a label for the progressbar
+    def show_current_data(data):
+        return '[Current PWM string: {}]'.format(data)
+
+    # Run the brute force
+    with click.progressbar(permutations,
+                           show_pos=True,
+                           item_show_func=show_current_data) as combinations:
+
+        for combination in combinations:
+            # Generate the bytes needed for the RFXmit
+            rf_data = bitstring.BitArray(bin=combination).tobytes()
+
+            # Send the data using the radio
+            d.RFxmit(data=rf_data, repeat=repeat)
+
+    # Idle the radio
+    click.secho('Idling radio', fg='yellow')
+    d.setModeIDLE()

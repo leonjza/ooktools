@@ -2,6 +2,7 @@
     ooktools
     <br>
     <img src="images/banner.png">
+    <a href="https://hub.docker.com/r/leonjza/ooktools"><img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/leonjza/ooktools"></a>
 </h4>
 
 **ooktools** aims to help with the reverse engineering of [on-off keying](https://en.wikipedia.org/wiki/On-off_keying) data sources such as wave files or raw frames captured using [RfCat](https://bitbucket.org/atlas0fd00m/rfcat).

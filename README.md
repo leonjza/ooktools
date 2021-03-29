@@ -3,6 +3,7 @@
     <br>
     <img src="images/banner.png">
     <hr />
+    <a href="https://twitter.com/leonjza"><img src="https://img.shields.io/badge/twitter-%40leonjza-blue.svg" alt="@leonjza" height="18"></a>
     <a href="https://hub.docker.com/r/leonjza/ooktools"><img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/leonjza/ooktools"></a>
 </h4>
 

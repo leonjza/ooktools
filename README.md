@@ -2,6 +2,7 @@
     ooktools
     <br>
     <img src="images/banner.png">
+    <hr />
     <a href="https://hub.docker.com/r/leonjza/ooktools"><img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/leonjza/ooktools"></a>
 </h4>
 

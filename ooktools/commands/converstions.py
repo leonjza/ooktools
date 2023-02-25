@@ -72,6 +72,6 @@ def clean_pwm_wave(source, destination):
         frames.append(struct.pack('h', value))
 
     click.secho('Writing output to file: {}'.format(destination))
-    output_wave.writeframes(''.join(frames))
+    output_wave.writeframes(b''.join(frames))
 
     return
